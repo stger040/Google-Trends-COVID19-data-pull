@@ -1,0 +1,23 @@
+pip install pytrends
+
+from pytrends.request import TrendReq
+import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd
+
+pytrends = TrendReq(hl='es-US', tz=360)
+
+pytrends.build_payload(['coronavirus', 'unemployment'], cat=0, timeframe='2020-01-01 2022-03-01',  gprop='', geo='US')
+df = pytrends.interest_over_time()
+print(df.head())
+
+sns.set()
+df['timestamp'] = pd.to_datetime(df.index)
+sns.lineplot(x = df['timestamp'], y = df['unemployment'])
+plt.xticks(rotation=45)
+plt.title("Normalized Searches related to Coronavirus in NY")
+plt.ylabel("Number of Searches")
+plt.xlabel("Date")
+get_searches('Coronavirus', 'NY')
+get_searches('Coronavirus', 'MA')
+get_searches('Coronavirus', 'CA')
